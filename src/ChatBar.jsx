@@ -1,6 +1,6 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-console */
 import React, {Component} from 'react';
-// import App from './App.jsx';
 
 class ChatBar extends Component {
     constructor(props){
@@ -13,26 +13,31 @@ class ChatBar extends Component {
         this.handleUsernameChange = this.handleUsernameChange.bind(this);
     }
 
+    // Attached to the input for the user's message. Sets the state's message to the
+    // input's target value
     handleMessageChange(event){
         this.setState({message: event.target.value});
     }
 
+    // Attached to the input for the user's name. Sets the state's username to the
+    // input's target value
     handleUsernameChange(event){
         this.setState({userName: event.target.value});
     }
 
     render() {
+
+        // if the enter/return key is pressed:
+        // declare variables equal to the user's message and the user's username
+        // run the message and username through App's addMessage function (passed as prop)
+        // Set the new message field and the state's message to empty strings
         const onEnter = (event) => {
             if (event.key === 'Enter' || event.key === 'Return') {
                 const message = this.state.message;
-                console.log(message);
                 const user = this.state.userName;
-                console.log(user);
                 this.props.addMessage(message, user);
                 event.target.value = '';
-                this.setState({
-                    message: ''
-                });
+                this.setState({ message: ''});
             }
         };
 

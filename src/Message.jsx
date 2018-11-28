@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, {Component} from 'react';
 
 class Message extends Component {
@@ -9,7 +10,6 @@ class Message extends Component {
                 <span className="message-content">{this.props.message.content}</span>
             </div>
             <div className="message system">
-                Anonymous1 changed their name to nomnom.
             </div>
       </main>
     );

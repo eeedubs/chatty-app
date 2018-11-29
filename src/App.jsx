@@ -16,6 +16,8 @@ import ChatBar from './ChatBar.jsx';
 import Message from './Message.jsx';
 import MessageList from './MessageList.jsx';
 
+// const webSocket = require('ws');
+const wss = new WebSocket(`ws://${window.location.hostname}:3001`);
 
 function getMessage() {
   return new Promise((resolve) => {
@@ -71,12 +73,17 @@ class App extends Component {
 
   componentDidMount() {
     window.scrollTo({ bottom: 0, behavior: 'smooth' });
+    
+    wss.addEventListener('open', function (event) {
+      console.log('Woohoo it\'s working');
+    })
   }
   
   addMessage(message, name) {
     let newId = this.state.messages.length + 1;
     let newMessageItem = {
       id: newId,
+      type: 'incomingMessage',
       content: message,
       username: name
     }

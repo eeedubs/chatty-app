@@ -74,7 +74,7 @@ class App extends Component {
   componentDidMount() {
     window.scrollTo({ bottom: 0, behavior: 'smooth' });
     
-    wss.addEventListener('open', function (event) {
+    wss.addEventListener('open', function () {
       console.log('Woohoo it\'s working');
     })
   }

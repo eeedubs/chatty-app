@@ -39,18 +39,47 @@ body {
   flex: 2;
 }
 
+.chatbar span {
+  background-color: white;
+  height: 1.1em;
+  margin: 15px 0px;
+  width: max-content + 5px;
+  padding: 3px;
+  border: 1px black solid;
+  border-radius: 13px;
+}
+
 .message {
   display: flex;
   padding: 5px;
+  background-color: lightblue;
+  border: 1px solid black;
+  border-radius: 10px;
 }
 
 .message.system {
   font-style: italic;
   padding: 5px 20px;
+  background-color: transparent;
+  border: none;
 }
 
-.message-content,
+// .message-content,
+// .message-username {
+//   overflow: hidden;
+//   margin: 5px;
+//   padding: 0 10px;
+// }
+
 .message-username {
+  overflow: hidden;
+  margin: -5px -5px;
+  padding: 10px 10px;
+  border-radius: 10px;
+  background-color: lightgreen;
+}
+
+.message-content {
   overflow: hidden;
   margin: 5px;
   padding: 0 10px;

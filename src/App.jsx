@@ -31,7 +31,7 @@ class App extends Component {
   constructor(props){
     super(props);
     this.state = {
-        currentUser: {name: 'Bob'},
+        currentUser: {name: 'Anonymous'},
         messages: [],
         socket: ''
       };
@@ -40,32 +40,38 @@ class App extends Component {
 
   componentDidMount() {
     console.log('Inside componentDidMount </App />');
-
     // Web socket connected to chatty_server
     this.socket = new WebSocket(`ws://${window.location.hostname}:3001`);
+
+    // assign a const variable to the global 'this'
+    const _this = this;
 
     // if the socket is open, notify the user in the browser console
     this.socket.addEventListener('open', function(event){
       console.log('App.jsx: connected to the web socket.');
     });
 
-    // if a message is received, notify the browser
+    // if a message is received, pass it into a variable using JSON.parse()
     this.socket.addEventListener('message', function(event) {
       let newMessage = JSON.parse(event.data);
-      console.log(newMessage);
-      // this.setState({})
+      console.log('New message received from the WebSocket: ', newMessage);
+
+      // add the new message to the end of the previous list of messages in state
+      const newReceivedMessages = _this.state.messages.concat(newMessage);
+      // set the new state to equal the new message list
+      _this.setState({ messages: newReceivedMessages })
     });
+  
     // window.scrollTo({ bottom: 0, behavior: 'smooth' });
   }
-  
+   
+
   addMessage(message, name) {
-    // the message ID is equal to the length of the message array held in state plus 1
-    // let newId = this.state.messages.length + 1;
+    // create a new ID using the UUID generator
     let newId = uuid.v4();
     // create the messageItem object
     let newMessageItem = {
       id: newId,
-      // type: 'incomingMessage',
       content: message,
       username: name
     }
@@ -75,8 +81,6 @@ class App extends Component {
     getMessage().then(() => {      
       // send the stringified message to the websocket server
       this.socket.send(JSON.stringify(newMessageItem));
-      // replace the message object in state with the new message object
-      this.setState({ messages: newMessages });
     });
   }
 

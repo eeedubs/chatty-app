@@ -7,10 +7,8 @@
 // Load up the application styles
 require('../styles/application.scss');
 
-
-// Web socket connected to chatty_server
-const socket = new WebSocket(`ws://${window.location.hostname}:3001`);
-
+// unique user id generator
+const uuid = require('uuid');
 
 // Render the top-level React component
 import React, {Component} from 'react';
@@ -41,41 +39,44 @@ class App extends Component {
   }
 
   componentDidMount() {
-    console.log('componentDidMount </App />');
-    const clients = [];
-    // if the socket is open, notify the user in the browser console and push the websocket
-    // variable into the client array
-    socket.addEventListener('open', function () {
-      console.log('Woohoo it\'s working');
-      clients.push(socket);
+    console.log('Inside componentDidMount </App />');
+
+    // Web socket connected to chatty_server
+    this.socket = new WebSocket(`ws://${window.location.hostname}:3001`);
+
+    // if the socket is open, notify the user in the browser console
+    this.socket.addEventListener('open', function(event){
+      console.log('App.jsx: connected to the web socket.');
     });
 
-    // if a message is sent, log the message in the browser console
-    socket.addEventListener('message', function (msg) {
-      console.log('App.jsx: ', msg);
-    })
+    // if a message is received, notify the browser
+    this.socket.addEventListener('message', function(event) {
+      let newMessage = JSON.parse(event.data);
+      console.log(newMessage);
+      // this.setState({})
+    });
     // window.scrollTo({ bottom: 0, behavior: 'smooth' });
   }
   
-
   addMessage(message, name) {
     // the message ID is equal to the length of the message array held in state plus 1
-    let newId = this.state.messages.length + 1;
+    // let newId = this.state.messages.length + 1;
+    let newId = uuid.v4();
     // create the messageItem object
     let newMessageItem = {
       id: newId,
-      type: 'incomingMessage',
+      // type: 'incomingMessage',
       content: message,
       username: name
     }
     // add the next message to the end of the message array
     const newMessages = this.state.messages.concat(newMessageItem);
     // get the message (0.5 second delay), then...
-    getMessage().then(() => {
+    getMessage().then(() => {      
+      // send the stringified message to the websocket server
+      this.socket.send(JSON.stringify(newMessageItem));
       // replace the message object in state with the new message object
       this.setState({ messages: newMessages });
-      // send the stringified message to the websocket server
-      socket.send(JSON.stringify(newMessageItem));
     });
   }
 

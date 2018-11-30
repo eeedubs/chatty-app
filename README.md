@@ -1,45 +1,43 @@
-React Boilerplate
+ChattyApp Project
 =====================
 
-A minimal and light dev environment for ReactJS.
+ChattyApp is a web application that employs real-time functionality where the user does not have to reload the page in order to see updates. 
 
-### Usage
+ChattyApp allows users to communicate with each other without having to register accounts. U
 
-Clone the boilerplate and create your own git repo.
+sers are able to change their usernames, which will send an alert to other usernames to alert them of this change. 
 
-```
-git clone git@github.com:lighthouse-labs/react-simple-boilerplate.git
-cd react-simple-boilerplate
-git remote rm origin
-git remote add origin [YOUR NEW REPOSITORY]
-# Manually update your package.json file
-```
+Restrictions are in place on the username length (between 1 and 35 characters) and on the message length (between 1 and 500 characters). 
 
-Install the dependencies and start the server.
+ChattyApp uses React, HTML, CSS and SASS on the front end, and Node (including Webpack and Babel), Express, and WebSockets on the back end.
 
-```
-npm install
-npm start
-open http://localhost:3000
-```
-
-### Static Files
-
-You can store static files like images, fonts, etc in the `build` folder.
-
-For example, if you copy a file called my_image.png into the build folder you can access it using `http://localhost:3000/build/my_image.png`.
-
-### Linting
-
-This boilerplate project includes React ESLint configuration.
-
-```
-npm run lint
-```
 
 ### Dependencies
 
-* React
-* Webpack
+* babel-core
 * [babel-loader](https://github.com/babel/babel-loader)
+* babel-preset-es2015
+* babel-preset-react
+* css-loader
+* node-sass
+* React
+* React-DOM
+* sockjs-client
+* Style-loader
+* Webpack
 * [webpack-dev-server](https://github.com/webpack/webpack-dev-server)
+
+### Screenshots
+
+![Screenshot of a Chatty App conversation between 4 clients](https://github.com/eeedubs/chatty-app/blob/master/docs/chatty-app-conversation.png)
+
+![Screenshot of Chatty App with an error message for too many characters entered](https://github.com/eeedubs/chatty-app/blob/master/docs/chatty-app-errors.png)
+
+
+## Getting Started
+
+1. Fork this repository, then clone your fork of this repository.
+2. Install dependencies using the `npm install` command.
+3. Navigate to the main project directory and start the web server using the `npm run local` command. The app will be served at <http://localhost:3000/>.
+4. Navigate to the WebSocket directory (called 'chatty_server') and start the web socket using the `npm start` command.  
+5. Go to <http://localhost:3000/> in your browser.

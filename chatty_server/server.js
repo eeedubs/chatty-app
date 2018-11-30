@@ -24,7 +24,7 @@ const wss = new SocketServer({ server });
 function broadcast(anyData) {
   wss.clients.forEach(function(client) {
     if (client.readyState === WebSocket.OPEN) {
-      console.log('The client\'s WebSocket is OPEN. Passing theanyDdata to App.JS: ', anyData);
+      console.log('The client\'s WebSocket is OPEN. Passing the data to App.JS: ', anyData);
       client.send(JSON.stringify(anyData));
     }
   })
@@ -32,9 +32,9 @@ function broadcast(anyData) {
 
 wss.on('connection', (ws) => {
   console.log('Client connected');
-
+  
   // send the size of the active client list to the user
-  const usersOnline = {
+  let usersOnline = {
     type: 'clientInformation',
     size: wss.clients.size
   }
@@ -63,5 +63,8 @@ wss.on('connection', (ws) => {
     broadcast(data);
   })
   // Set up a callback for when a client closes the socket. This usually means they closed their browser.
-  ws.on('close', () => console.log('Client disconnected'));
-})
+  ws.on('close', () => {
+    console.log('Client disconnected');
+    broadcast(usersOnline);
+  });
+});

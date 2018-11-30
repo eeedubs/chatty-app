@@ -7,9 +7,6 @@
 // Load up the application styles
 require('../styles/application.scss');
 
-// unique user id generator
-const uuid = require('uuid');
-
 // Render the top-level React component
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
@@ -27,8 +24,7 @@ function delayMessage() {
 }
 
 class App extends Component {
-  // In the constructor, the properties (props) are set across all the JSX files
-  // the structure is this.state.
+  // In the constructor, the properties (props) are set across all the JSX files, and the states are local
   constructor(props){
     super(props);
     this.state = {
@@ -43,9 +39,10 @@ class App extends Component {
 
   componentDidMount() {
     // Web socket connected to chatty_server
-    // assign a const variable to the global 'this'
     console.log('Inside componentDidMount </App />');
     this.socket = new WebSocket(`ws://${window.location.hostname}:3001`);
+
+    // assign a const variable to the global 'this'
     const _this = this;
 
     // if the socket is open, notify the user in the browser console
@@ -61,21 +58,21 @@ class App extends Component {
       switch(data.type) {
         // if the incoming event is a message, log it, add it to the messages, then set it within the state
         case 'incomingMessage':
-          console.log('New message received from the WebSocket: ', data);   
+          // console.log('New message received from the WebSocket: ', data);   
           newReceivedMessages = _this.state.messages.concat(data); 
           _this.setState({ messages: newReceivedMessages })
           break;
         // if the incoming event is a notification: log it, add it to the messages, then set it within the state
         case 'incomingNotification':
-          console.log('New notification received from the WebSocket: ', data);
+          // console.log('New notification received from the WebSocket: ', data);
           newReceivedMessages = _this.state.messages.concat(data);
           _this.setState({ messages: newReceivedMessages })
           break;
         // if the incoming event is client information, log it, then set it within the state
         case 'clientInformation':
-          console.log('New client information received from the WebSocket: ', data);
+          // console.log('New client information received from the WebSocket: ', data);
           _this.setState({ clientSize: data.size });
-          console.log("This is the size of the clients in state: ", _this.state.clientSize);
+          // console.log("This is the size of the clients in state: ", _this.state.clientSize);
           break;
         // otherwise, throw an error with the data type
         default: 

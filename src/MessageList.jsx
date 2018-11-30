@@ -1,18 +1,23 @@
-/* eslint-disable react/prop-types */
 import React, {Component} from 'react';
 import Message from './Message.jsx';
 
 class MessageList extends Component {
-    constructor(props){
-        super(props);
-    }
+  constructor(props){
+    super(props);
+  }
   render() {
     return (
       <main className="messages">
         {
-            this.props.messages.map((currentMessage, index)=>{
-                return <Message message = {currentMessage} key={index}  />  
-            })
+          this.props.messages.map((currentMessage)=>{
+              return (
+                <Message 
+                  messageFromList={currentMessage} 
+                  type={currentMessage.type} 
+                  key={currentMessage.id}  
+                />  
+              )
+          })
         }
       </main>
     );

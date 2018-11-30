@@ -1,18 +1,26 @@
-/* eslint-disable react/prop-types */
+
 import React, {Component} from 'react';
 
 class Message extends Component {
+
   render() {
-    return (
-        <main className="messages">
-            <div className="message">
-                <span className="message-username">{this.props.message.username}</span>
-                <span className="message-content">{this.props.message.content}</span>
-            </div>
-            <div className="message system">
-            </div>
-      </main>
-    );
+    if (this.props.messageFromList.type === 'incomingMessage'){
+      return (
+        <div className="message">
+          <span className="message-username">{this.props.messageFromList.username}</span>
+          <span className="message-content">{this.props.messageFromList.content}</span>
+        </div>
+      )
+    } else if (this.props.messageFromList.type === 'incomingNotification'){ 
+      return (
+        <div className="message system">
+        {this.props.messageFromList.content}
+      </div>
+      )
+    } else {
+      // eslint-disable-next-line no-console
+      console.error("Unidentified message type: ", this.props.messageFromList.type);
+    }
   }
 }
 export default Message;
